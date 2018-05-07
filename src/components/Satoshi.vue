@@ -1,19 +1,61 @@
 <template>
   <div class="satoshi">
-    
-    <input type="text" ref="satoshi-currency" value=""> 사토시는 <br/>
-    한화로 <button ref="exchange-money">얼마?</button>
-    <div class="result-krw-currency">
-
+    <div class="input-group">
+      <input type="number" class="form-control col-4" placeholder="satoshi"
+             ref="satoshiCurrency" aria-label="satoshi-currency" aria-describedby="basic-addon1"
+      >
+    </div>
+    <div class="calculate">
+      한화로
+      <button type="button" class="btn btn-light" v-on:click="calculateCurrency">얼마?</button>
+      <div class="resultKrw">
+        <span class="priceResult">
+          {{ krwPrice !== null ? krwPrice : '' }}
+          {{ krwPrice !== null ? '원' : '' }}
+        </span>
+      </div>
+      <div class="description">
+        upbit로부터 비트코인 가격을 불러와 사토시를 한화로 계산합니다
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+
+import VueAxios from 'vue-axios'
+import axios from 'axios'
+
+Vue.use(VueAxios, axios)
+
 export default {
   name: 'Satoshi',
+  created() {
+    this.callBtcPric()
+
+  },
   data () {
     return {
+      'btcPrice': null,
+      'krwPrice': null
+    }
+  },
+  methods: {
+    calculateCurrency() {
+      this.callBtcPric();
+      let satoshi = this.btcPrice / 100000000;
+      console.log(this.$refs.satoshiCurrency.value)
+      this.krwPrice = satoshi * parseInt(this.$refs.satoshiCurrency.value);
+    },
+    callBtcPric() {
+      Vue.axios.get('https://crix-api-endpoint.upbit.com/v1/crix/candles/minutes/10?code=CRIX.UPBIT.KRW-BTC').then((response) => {
+        let currentPrice = response.data[0].tradePrice
+        this.btcPrice = parseInt(currentPrice)
+      }).catch((errorResponse) => {
+        console.log(errorResponse)
+      })
+
     }
   }
 }
@@ -21,16 +63,27 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.satoshi {
+  .input-group {
+    margin-bottom: 10px;
+    input {
+      margin: 0 auto;
+    }
+  }
+  .result-krw-currency {
+    margin-top: 10px;
+  }
+  .priceResult{
+    font-size: 1.5em;
+    color: #42b983;
+  }
+}
 h1, h2 {
   font-weight: normal;
 }
 ul {
   list-style-type: none;
   padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
 }
 a {
   color: #42b983;
