@@ -1,5 +1,5 @@
 <template>
-  <div class="satoshi">
+  <div class="satoshi container">
     <div class="input-group">
       <input type="number" class="form-control col-4" placeholder="satoshi"
              ref="satoshiCurrency" aria-label="satoshi-currency" aria-describedby="basic-addon1"
@@ -15,7 +15,8 @@
         </span>
       </div>
       <div class="description">
-        upbit로부터 비트코인 가격을 불러와 사토시를 한화로 계산합니다
+        <p>upbit로부터 비트코인 가격을 불러와 한화로 계산합니다</p>
+        <p>버튼을 클릭하는 순간의 가격으로 계산합니다</p>
       </div>
     </div>
   </div>
