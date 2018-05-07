@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <h2>Satoshi 계산기</h2>
     <router-view/>
   </div>
 </template>
