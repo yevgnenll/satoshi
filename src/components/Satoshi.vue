@@ -1,6 +1,11 @@
 <template>
   <div class="satoshi">
+    
+    <input type="text" ref="satoshi-currency" value=""> 사토시는 <br/>
+    한화로 <button ref="exchange-money">얼마?</button>
+    <div class="result-krw-currency">
 
+    </div>
   </div>
 </template>
 
